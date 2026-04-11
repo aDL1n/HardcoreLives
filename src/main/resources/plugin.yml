@@ -1,0 +1,23 @@
+name: HardcoreLives
+description: $description
+prefix: HardcoreLives
+version: '${version}'
+
+main: pl.cramber.hardcorelives.HardcoreLives
+api-version: '1.21.11'
+load: POSTWORLD
+
+authors: [ Cramber ]
+website: https://github.com/Cramber25/HardcoreLives
+
+softdepend:
+  - PlaceholderAPI
+
+commands:
+  lives:
+    description: Check the remaining lives of a player.
+    usage: /lives [player] | /lives <set|add> <player> <amount>
+permissions:
+  hardcorelives.admin:
+    description: Change the remaining lives of a player.
+    default: op
