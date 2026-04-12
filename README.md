@@ -1,0 +1,43 @@
+# Hardcore Lives
+
+This is a super simple plugin which adds hardcore lives to your minecraft server.
+
+## Features:
+- Ban time when a player runs out of lives
+- Optional item that adds a life to a player, support for custom items using plugins like CraftEngine/ItemsAdder
+- Set starting lives
+- Set lives given to player after ban ends
+- Modify plugin messages
+- PlaceholderAPI support: `%hardcorelives_lives%`
+
+## Commands:
+- /lives
+- /lives <player>
+- /lives add <player> <amount> (`hardcorelives.admin`)
+- /lives set <player> <amount> (`hardcorelives.admin`)
+
+## Config:
+```yaml
+starting_lives: 3
+ban_hours: 24
+max_lives: 5
+lives_after_ban: 1
+
+life_item:
+  enabled: true
+  material: "NETHER_STAR"
+  custom_model_data: 1111 # Optional: Remove this line to allow standard vanilla items
+
+messages:
+  kick_ban: "<red>You ran out of lives! Banned for %hours% hours.</red>"
+  death_lives_remaining: "<yellow>You died! Lives remaining: %lives%</yellow>"
+  command_lives_self: "<green>You have %lives% lives remaining.</green>"
+  command_lives_other: "<green>%player% has %lives% lives remaining.</green>"
+  command_player_not_found: "<red>Player not found.</red>"
+  item_used: "<green>Added 1 life! You now have %lives% lives.</green>"
+  admin_set: "<green>Set %lives% lives for %player%.</green>"
+  admin_add: "<green>Added lives. %player% now has %lives% lives.</green>"
+  no_permission: "<red>No permission (hardcorelives.admin).</red>"
+  invalid_number: "<red>Invalid number provided.</red>"
+  invalid_usage: "<red>Usage: /lives [player] | /lives <set/add> <player> <amount></red>"
+```
