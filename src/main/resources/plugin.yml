@@ -4,8 +4,9 @@ prefix: HardcoreLives
 version: '${version}'
 
 main: pl.cramber.hardcorelives.HardcoreLives
-api-version: '1.21.11'
+api-version: '1.21'
 load: POSTWORLD
+folia-supported: true
 
 authors: [ Cramber ]
 website: https://github.com/Cramber25/HardcoreLives
