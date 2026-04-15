@@ -1,22 +1,23 @@
-# Hardcore Lives
+# HardcoreLives
 
-This is a super simple plugin which adds hardcore lives to your minecraft server.
+HardcoreLives is a straightforward plugin that adds a limited lives system to your Minecraft server. It’s built for SMPs or hardcore servers where you want death to have real consequences, but don't want to permanently ban your players.
 
-## Features:
-- Ban time when a player runs out of lives
-- Optional item that adds a life to a player, support for custom items using plugins like CraftEngine/ItemsAdder
-- Set starting lives
-- Set lives given to player after ban ends
-- Modify plugin messages
-- PlaceholderAPI support: `%hardcorelives_lives%`
+When a player hits 0 lives, they get temp-banned for a set amount of time. To keep things balanced, players can use a specific item to add a life back to their account.
 
-## Commands:
-- /lives
-- /lives <player>
-- /lives add <player> <amount> (`hardcorelives.admin`)
-- /lives set <player> <amount> (`hardcorelives.admin`)
+## Features
+* **Custom Temp-Bans:** Ban players for a specific amount of time when they run out of lives.
+* **Life Management:** Set how many lives a player starts with, what their maximum cap is, and how many they get back after their ban expires.
+* **Custom 'Life' Items:** Define an item that players can right-click to gain +1 life. It fully supports `CustomModelData`, so you can easily hook it into resource packs or plugins like ItemsAdder, Oraxen, or CraftEngine.
+* **PlaceholderAPI:** Use `%hardcorelives_lives%` to display remaining lives on scoreboards or tab lists.
+* **Custom Messages:** All messages are fully translatable and support MiniMessage formatting (`<red>`, `<bold>`, etc.).
 
-## Config:
+## Commands & Permissions
+* `/lives` - Check your remaining lives.
+* `/lives [player]` - Check another player's lives.
+* `/lives add <player> <amount>` - Add lives to a player. *(Permission: `hardcorelives.admin`)*
+* `/lives set <player> <amount>` - Override and set a player's lives. *(Permission: `hardcorelives.admin`)*
+
+## Configuration (config.yml)
 ```yaml
 starting_lives: 3
 ban_hours: 24
