@@ -12,6 +12,10 @@ public final class HardcoreLives extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
+        // bStats
+        int pluginId = 30798;
+        Metrics metrics = new Metrics(this, pluginId);
+
         dataManager = new DataManager(this);
 
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
