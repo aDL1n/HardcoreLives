@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.logging.Level;
 
+//God class, fix this
 public class DataManager {
     private final HardcoreLives plugin;
     private File dataFile;

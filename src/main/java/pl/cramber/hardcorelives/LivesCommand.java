@@ -18,6 +18,7 @@ public class LivesCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        // maybe you can use switch for this
         if (args.length == 0) {
             if (!(sender instanceof Player player)) {
                 return true;
@@ -52,6 +53,7 @@ public class LivesCommand implements CommandExecutor {
             }
 
             String subCmd = args[0].toLowerCase();
+            //and for this
             if (subCmd.equals("set") || subCmd.equals("add")) {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
                 int amount;

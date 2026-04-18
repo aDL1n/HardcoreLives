@@ -1,32 +1,27 @@
 package pl.cramber.hardcorelives;
 
 import org.bukkit.command.PluginCommand;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class HardcoreLives extends JavaPlugin {
 
     private DataManager dataManager;
 
+    private final static int PLUGIN_ID = 30798;
+
     @Override
     public void onEnable() {
-        getConfig().options().copyDefaults(true);
-        saveConfig();
+        super.saveDefaultConfig();
+
+        this.dataManager = new DataManager(this);
 
         // bStats
-        int pluginId = 30798;
-        Metrics metrics = new Metrics(this, pluginId);
+        new Metrics(this, PLUGIN_ID);
 
-        dataManager = new DataManager(this);
+        registerEvents();
 
-        getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
-
-        PluginCommand livesCommand = getCommand("lives");
-        if (livesCommand != null) {
-            livesCommand.setExecutor(new LivesCommand(this));
-        } else {
-            getLogger().severe("The /lives command is not registered in plugin.yml!");
-        }
+        getCommand("lives").setExecutor(new LivesCommand(this));
 
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new LivesExpansion(this).register();
@@ -38,6 +33,15 @@ public final class HardcoreLives extends JavaPlugin {
         if (dataManager != null) {
             dataManager.save();
         }
+    }
+
+    private void registerEvents() {
+        registerEventListener(new PlayerDeathListener(this));
+        registerEventListener(new PlayerInteractListener(this));
+    }
+
+    private void registerEventListener(Listener listener) {
+        this.getServer().getPluginManager().registerEvents(listener, this);
     }
 
     public DataManager getDataManager() {

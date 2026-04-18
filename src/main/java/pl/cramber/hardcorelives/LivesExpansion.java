@@ -4,6 +4,8 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class LivesExpansion extends PlaceholderExpansion {
 
     private final HardcoreLives plugin;
@@ -24,7 +26,8 @@ public class LivesExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor() {
-        return plugin.getPluginMeta().getAuthors().isEmpty() ? "Cramber" : plugin.getPluginMeta().getAuthors().getFirst();
+        final List<String> authors = this.plugin.getPluginMeta().getAuthors();
+        return authors.isEmpty() ? "Cramber" : authors.getFirst();
     }
 
     @Override
@@ -34,12 +37,10 @@ public class LivesExpansion extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String params) {
-        if (player == null) {
-            return "";
-        }
+        if (player == null) return "";
 
         if (params.equalsIgnoreCase("lives")) {
-            int lives = plugin.getDataManager().getLives(player.getUniqueId());
+            final int lives = plugin.getDataManager().getLives(player.getUniqueId());
             return lives == -1 ? "0" : String.valueOf(lives);
         }
 

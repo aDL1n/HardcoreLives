@@ -6,7 +6,7 @@ lives_after_ban: 1
 life_item:
   enabled: true
   material: "NETHER_STAR"
-  custom_model_data: 1111 # Optional: Remove this line to allow standard vanilla items
+  custom_model_data: 1111 # Optional: Commit this line to allow standard vanilla items
 
 messages:
   kick_ban: "<red>You ran out of lives! Banned for %hours% hours.</red>"

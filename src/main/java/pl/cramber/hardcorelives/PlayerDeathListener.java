@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.time.Duration;
 
+//Needs refactore just as in PlayerInteractListener
 public class PlayerDeathListener implements Listener {
 
     private final HardcoreLives plugin;
