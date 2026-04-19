@@ -1,9 +1,9 @@
-name: HardcoreLives
+name: Main
 description: $description
-prefix: HardcoreLives
+prefix: Main
 version: '${version}'
 
-main: pl.cramber.hardcorelives.HardcoreLives
+main: pl.cramber.hardcorelives.Main
 api-version: '1.21'
 load: POSTWORLD
 folia-supported: true

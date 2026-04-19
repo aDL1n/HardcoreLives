@@ -1,4 +1,4 @@
-package pl.cramber.hardcorelives;
+package pl.cramber.hardcorelives.command;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -8,11 +8,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import pl.cramber.hardcorelives.Main;
 
+//You can create class for storing messages and class for loading from config.
 public class LivesCommand implements CommandExecutor {
-    private final HardcoreLives plugin;
+    private final Main plugin;
 
-    public LivesCommand(HardcoreLives plugin) {
+    public LivesCommand(Main plugin) {
         this.plugin = plugin;
     }
 
@@ -23,7 +25,7 @@ public class LivesCommand implements CommandExecutor {
             if (!(sender instanceof Player player)) {
                 return true;
             }
-            int lives = plugin.getDataManager().getLives(player.getUniqueId());
+            int lives = plugin.getLivesRepository().getLives(player.getUniqueId());
             String msg = plugin.getConfig().getString("messages.command_lives_self", "<green>You have %lives% lives remaining.</green>")
                     .replace("%lives%", String.valueOf(lives == -1 ? plugin.getConfig().getInt("starting_lives") : lives));
             player.sendMessage(MiniMessage.miniMessage().deserialize(msg));
@@ -32,7 +34,7 @@ public class LivesCommand implements CommandExecutor {
 
         if (args.length == 1) {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-            int lives = plugin.getDataManager().getLives(target.getUniqueId());
+            int lives = plugin.getLivesRepository().getLives(target.getUniqueId());
             if (lives == -1) {
                 String msg = plugin.getConfig().getString("messages.command_player_not_found", "<red>Player not found.</red>");
                 sender.sendMessage(MiniMessage.miniMessage().deserialize(msg));
@@ -65,7 +67,7 @@ public class LivesCommand implements CommandExecutor {
                     return true;
                 }
 
-                int current = plugin.getDataManager().getLives(target.getUniqueId());
+                int current = plugin.getLivesRepository().getLives(target.getUniqueId());
                 if (current == -1) {
                     current = plugin.getConfig().getInt("starting_lives");
                 }
@@ -77,7 +79,7 @@ public class LivesCommand implements CommandExecutor {
                     newLives = maxLives;
                 }
 
-                plugin.getDataManager().setLives(target.getUniqueId(), newLives);
+                plugin.getLivesRepository().setLives(target.getUniqueId(), newLives);
 
                 String msgKey = subCmd.equals("set") ? "messages.admin_set" : "messages.admin_add";
                 String msg = plugin.getConfig().getString(msgKey, "<green>Updated lives.</green>")

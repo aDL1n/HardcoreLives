@@ -1,8 +1,7 @@
-package pl.cramber.hardcorelives;
+package pl.cramber.hardcorelives.listener;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,16 +9,16 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.components.CustomModelDataComponent;
 import org.jetbrains.annotations.NotNull;
+import pl.cramber.hardcorelives.Main;
 
 import java.util.List;
 import java.util.UUID;
 
 public class PlayerInteractListener implements Listener {
-    private final HardcoreLives plugin;
+    private final Main plugin;
 
-    public PlayerInteractListener(HardcoreLives plugin) {
+    public PlayerInteractListener(Main plugin) {
         this.plugin = plugin;
     }
 
@@ -43,7 +42,7 @@ public class PlayerInteractListener implements Listener {
         final Player player = event.getPlayer();
         final UUID playerUUID = player.getUniqueId();
 
-        int currentLives = this.plugin.getDataManager().getLives(playerUUID);
+        int currentLives = this.plugin.getLivesRepository().getLives(playerUUID);
         if (currentLives == -1) {
             currentLives = this.plugin.getConfig().getInt("starting_lives");
         }
@@ -57,7 +56,7 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        this.plugin.getDataManager().setLives(player.getUniqueId(), currentLives + 1);
+        this.plugin.getLivesRepository().setLives(player.getUniqueId(), currentLives + 1);
         item.subtract(1);
 
         String msg = this.plugin.getConfig().getString("messages.item_used", "<green>Added 1 life! You now have %lives% lives.</green>")

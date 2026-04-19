@@ -1,16 +1,17 @@
-package pl.cramber.hardcorelives;
+package pl.cramber.hardcorelives.papi;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
+import pl.cramber.hardcorelives.Main;
 
 import java.util.List;
 
 public class LivesExpansion extends PlaceholderExpansion {
 
-    private final HardcoreLives plugin;
+    private final Main plugin;
 
-    public LivesExpansion(HardcoreLives plugin) {
+    public LivesExpansion(Main plugin) {
         this.plugin = plugin;
     }
 
@@ -32,7 +33,7 @@ public class LivesExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return plugin.getPluginMeta().getVersion();
+        return this.plugin.getPluginMeta().getVersion();
     }
 
     @Override
@@ -40,7 +41,7 @@ public class LivesExpansion extends PlaceholderExpansion {
         if (player == null) return "";
 
         if (params.equalsIgnoreCase("lives")) {
-            final int lives = plugin.getDataManager().getLives(player.getUniqueId());
+            final int lives = plugin.getLivesRepository().getLives(player.getUniqueId());
             return lives == -1 ? "0" : String.valueOf(lives);
         }
 

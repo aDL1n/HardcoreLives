@@ -1,4 +1,4 @@
-package pl.cramber.hardcorelives;
+package pl.cramber.hardcorelives.listener;
 
 import io.papermc.paper.ban.BanListType;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -8,59 +8,60 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import pl.cramber.hardcorelives.Main;
 
 import java.time.Duration;
 
 //Needs refactore just as in PlayerInteractListener
 public class PlayerDeathListener implements Listener {
 
-    private final HardcoreLives plugin;
+    private final Main plugin;
 
-    public PlayerDeathListener(HardcoreLives plugin) {
+    public PlayerDeathListener(Main plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        int currentLives = plugin.getDataManager().getLives(player.getUniqueId());
+        final Player player = event.getPlayer();
+        final int currentLives = this.plugin.getLivesRepository().getLives(player.getUniqueId());
 
         if (currentLives == -1) {
-            int startingLives = plugin.getConfig().getInt("starting_lives");
-            plugin.getDataManager().setLives(player.getUniqueId(), startingLives);
+            final int startingLives = this.plugin.getConfig().getInt("starting_lives");
+            this.plugin.getLivesRepository().setLives(player.getUniqueId(), startingLives);
         }
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        Player player = event.getPlayer();
-        int currentLives = plugin.getDataManager().getLives(player.getUniqueId());
+        final Player player = event.getPlayer();
+        int currentLives = this.plugin.getLivesRepository().getLives(player.getUniqueId());
 
         if (currentLives > 0) {
             currentLives--;
         }
 
         if (currentLives <= 0) {
-            int banHours = plugin.getConfig().getInt("ban_hours");
-            int livesAfterBan = plugin.getConfig().getInt("lives_after_ban");
+            final int banHours = this.plugin.getConfig().getInt("ban_hours");
+            final int livesAfterBan = this.plugin.getConfig().getInt("lives_after_ban");
 
-            plugin.getDataManager().setLives(player.getUniqueId(), livesAfterBan);
+            this.plugin.getLivesRepository().setLives(player.getUniqueId(), livesAfterBan);
 
-            String rawKickMessage = plugin.getConfig().getString("messages.kick_ban", "<red>Banned.</red>")
+            final String rawKickMessage = this.plugin.getConfig().getString("messages.kick_ban", "<red>Banned.</red>")
                     .replace("%hours%", String.valueOf(banHours));
 
             Bukkit.getBanList(BanListType.PROFILE).addBan(
                     player.getPlayerProfile(),
                     rawKickMessage,
                     Duration.ofHours(banHours),
-                    "HardcoreLives"
+                    "Main"
             );
 
             player.kick(MiniMessage.miniMessage().deserialize(rawKickMessage));
         } else {
-            plugin.getDataManager().setLives(player.getUniqueId(), currentLives);
+            this.plugin.getLivesRepository().setLives(player.getUniqueId(), currentLives);
 
-            String rawDeathMessage = plugin.getConfig().getString("messages.death_lives_remaining", "<yellow>Lives: %lives%</yellow>")
+            final String rawDeathMessage = this.plugin.getConfig().getString("messages.death_lives_remaining", "<yellow>Lives: %lives%</yellow>")
                     .replace("%lives%", String.valueOf(currentLives));
 
             player.sendMessage(MiniMessage.miniMessage().deserialize(rawDeathMessage));
